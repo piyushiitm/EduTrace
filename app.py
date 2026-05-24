@@ -1,25 +1,68 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import sqlite3
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("HomePage.html")
 
-@app.route("/student")
+@app.route("/studentlogin")
 def student():
-    return render_template("student.html")
+    return render_template("LoginPages/StudentLogin.html")
 
-@app.route("/authority")
+@app.route("/authoritylogin")
 def authority():
-    return render_template("authority.html")
+    return render_template("LoginPages/AuthorityLogin.html")
 
-@app.route("/admin")
+@app.route("/adminlogin")
 def admin():
-    return render_template("admin.html")
+    return render_template("LoginPages/AdminLogin.html")
 
-@app.route("/validator")
+@app.route("/validationdashboard")
 def validation():
-    return render_template("validator.html")
+    return render_template("Dashboards/ValidationDashboard.html")
+
+@app.route("/admindashboard", methods=["POST"])
+def adminlogin():
+    username = request.form["username"]
+    password = request.form["password"]
+    dbconn = sqlite3.connect("Databases/AdminCred.db")
+    cursor = dbconn.cursor()
+    cursor.execute("SELECT * FROM admins WHERE username=? AND password=?",(username, password))
+    admin = cursor.fetchone()
+    if admin:
+        return render_template("Dashboards/AdminDashboard.html")
+    else:
+        return render_template("LoginPages/AdminLogin.html",error="Invalid Credentials")
+
+@app.route("/authoritydashboard", methods=["POST"])
+def authoritylogin():
+    username = request.form["username"]
+    password = request.form["password"]
+    dbconn = sqlite3.connect("AuthCred.db")
+    cursor = dbconn.cursor()
+    cursor.execute("SELECT * FROM authorities WHERE username=? AND password=?",(username, password))
+    auth = cursor.fetchone()
+    if auth :
+        return render_template("Dashboards/AuthorityDashboard.html")
+    else:
+        return render_template("LoginPages/AuthorityLogin.html",error="Invalid Credentials")
+    
+@app.route("/studentdashboard", methods=["POST"])
+def studentlogin():
+    username = request.form["username"]
+    password = request.form["password"]
+    dbconn = sqlite3.connect("StuCred.db")
+    cursor = dbconn.cursor()
+    cursor.execute("SELECT * FROM students WHERE username=? AND password=?",(username, password))
+    student = cursor.fetchone()
+    if student :
+        return render_template("Dashboards/StudentDashboard.html")
+    else:
+        return render_template("LoginPages/StudentLogin.html",error="Invalid Credentials")
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

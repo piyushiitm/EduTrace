@@ -1,8 +1,8 @@
 import sqlite3
 
-conn = sqlite3.connect("admincred.db")
+dbconn = sqlite3.connect("DataBases/AdminCred.db")
 
-cursor = conn.cursor()
+cursor = dbconn.cursor()
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS admins (
@@ -17,6 +17,39 @@ INSERT INTO admins (username, password)
 VALUES (?, ?)
 """, ("Piyush", "19012005"))
 
-conn.commit()
+dbconn.commit()
 
-conn.close()
+dbconn.close()
+
+
+dbconn = sqlite3.connect("DataBases/StuCred.db")
+
+cursor = dbconn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL
+)
+""")
+
+dbconn.commit()
+
+dbconn.close()
+
+dbconn = sqlite3.connect("DataBases/AuthCred.db")
+
+cursor = dbconn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS authorities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL
+)
+""")
+
+dbconn.commit()
+
+dbconn.close()
