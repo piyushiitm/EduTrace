@@ -40,7 +40,7 @@ def adminlogin():
 def authoritylogin():
     username = request.form["username"]
     password = request.form["password"]
-    dbconn = sqlite3.connect("AuthCred.db")
+    dbconn = sqlite3.connect("Databases/AuthCred.db")
     cursor = dbconn.cursor()
     cursor.execute("SELECT * FROM authorities WHERE username=? AND password=?",(username, password))
     auth = cursor.fetchone()
@@ -62,7 +62,24 @@ def studentlogin():
     else:
         return render_template("LoginPages/StudentLogin.html",error="Invalid Credentials")
 
-
+@app.route("/addAuth",methods=["POST"])
+def addAuthority():
+    username = request.form["username"]
+    password = request.form["password"]
+    dbconn = sqlite3.connect("Databases/AuthCred.db")
+    cursor = dbconn.cursor()
+    cursor.execute("""
+        INSERT INTO authorities (username, password)
+        VALUES (?, ?)
+        """, (username, password))
+    dbconn.commit()
+    cursor.execute(
+    "SELECT * FROM authorities WHERE username=? AND password=?",
+    (username,password)
+    )
+    authority=cursor.fetchone()
+    dbconn.close()
+    return render_template("Dashboards/AdminDashboard.html", success="User Succesfully Added",authority=authority)
 
 if __name__ == "__main__":
     app.run(debug=True)

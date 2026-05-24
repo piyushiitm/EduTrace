@@ -7,7 +7,7 @@ cursor = dbconn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS admins (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 )
 """)
@@ -29,7 +29,7 @@ cursor = dbconn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 )
 """)
@@ -45,7 +45,7 @@ cursor = dbconn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS authorities (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 )
 """)
