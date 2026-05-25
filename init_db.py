@@ -1,6 +1,6 @@
 import sqlite3
 
-dbconn = sqlite3.connect("DataBases/AdminCred.db")
+dbconn = sqlite3.connect("DataBases/Credentials/AdminCred.db")
 
 cursor = dbconn.cursor()
 
@@ -22,7 +22,7 @@ dbconn.commit()
 dbconn.close()
 
 
-dbconn = sqlite3.connect("DataBases/StuCred.db")
+dbconn = sqlite3.connect("DataBases/Credentials/StuCred.db")
 
 cursor = dbconn.cursor()
 
@@ -30,7 +30,8 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    authority TEXT NOT NULL
 )
 """)
 
@@ -38,7 +39,7 @@ dbconn.commit()
 
 dbconn.close()
 
-dbconn = sqlite3.connect("DataBases/AuthCred.db")
+dbconn = sqlite3.connect("DataBases/Credentials/AuthCred.db")
 
 cursor = dbconn.cursor()
 

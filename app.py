@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import sqlite3
 
 app = Flask(__name__)
+app.secret_key = "EduTrace"
 
 @app.route("/")
 def home():
@@ -27,7 +28,7 @@ def validation():
 def adminlogin():
     username = request.form["username"]
     password = request.form["password"]
-    dbconn = sqlite3.connect("Databases/AdminCred.db")
+    dbconn = sqlite3.connect("Databases/Credentials/AdminCred.db")
     cursor = dbconn.cursor()
     cursor.execute("SELECT * FROM admins WHERE username=? AND password=?",(username, password))
     admin = cursor.fetchone()
@@ -40,11 +41,12 @@ def adminlogin():
 def authoritylogin():
     username = request.form["username"]
     password = request.form["password"]
-    dbconn = sqlite3.connect("Databases/AuthCred.db")
+    dbconn = sqlite3.connect("Databases/Credentials/AuthCred.db")
     cursor = dbconn.cursor()
     cursor.execute("SELECT * FROM authorities WHERE username=? AND password=?",(username, password))
     auth = cursor.fetchone()
     if auth :
+        session["crrAuth"]=username
         return render_template("Dashboards/AuthorityDashboard.html")
     else:
         return render_template("LoginPages/AuthorityLogin.html",error="Invalid Credentials")
@@ -53,7 +55,7 @@ def authoritylogin():
 def studentlogin():
     username = request.form["username"]
     password = request.form["password"]
-    dbconn = sqlite3.connect("StuCred.db")
+    dbconn = sqlite3.connect("Databases/Credentials/StuCred.db")
     cursor = dbconn.cursor()
     cursor.execute("SELECT * FROM students WHERE username=? AND password=?",(username, password))
     student = cursor.fetchone()
@@ -66,7 +68,7 @@ def studentlogin():
 def addAuthority():
     username = request.form["username"]
     password = request.form["password"]
-    dbconn = sqlite3.connect("Databases/AuthCred.db")
+    dbconn = sqlite3.connect("Databases/Credentials/AuthCred.db")
     cursor = dbconn.cursor()
     cursor.execute("""
         INSERT INTO authorities (username, password)
@@ -79,7 +81,85 @@ def addAuthority():
     )
     authority=cursor.fetchone()
     dbconn.close()
+    dbconn = sqlite3.connect("Databases/Credentials/StuCred.db")
+    cursor=dbconn.cursor()
+    cursor.execute(f"""
+    CREATE TABLE IF NOT EXISTS {username} (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL
+    )
+    """)
+    dbconn.commit()
+    dbconn.close()
+
+    dbconn = sqlite3.connect("Databases/Data/AuthData.db")
+    cursor = dbconn.cursor()
+    cursor.execute(f"""
+    CREATE TABLE IF NOT EXISTS {username}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE
+        )
+    """)
+    dbconn.commit()
+    dbconn.close()
     return render_template("Dashboards/AdminDashboard.html", success="User Succesfully Added",authority=authority)
+
+@app.route("/AddStudents")
+def GotoAddStudent():
+    return render_template("Dashboards/AuthFxns/AddStudent.html")
+
+@app.route("/AddedStudent" , methods=["POST"])
+def Addstudent():
+    crrAuth=session["crrAuth"]
+    username = request.form["username"]
+    password = request.form["password"]
+    #adding student data in authority table of student credential database
+    dbconn = sqlite3.connect("Databases/Credentials/StuCred.db")
+    cursor = dbconn.cursor()
+    cursor.execute(f"""
+        INSERT INTO {crrAuth} (username, password)
+        VALUES (?, ?)
+        """, (username, password))
+    dbconn.commit()
+    cursor.execute(f"""
+    SELECT * FROM {crrAuth} WHERE username=? AND password=?""",
+    (username,password)
+    )
+    student=cursor.fetchone()
+    dbconn.close()
+    #adding student in global table of student credential database
+    dbconn = sqlite3.connect("Databases/Credentials/StuCred.db")
+    cursor = dbconn.cursor()
+    cursor.execute(f"""
+        INSERT INTO students (username, password, authority)
+        VALUES (?, ?, ?)
+        """, (username, password, crrAuth))
+    dbconn.commit()
+    dbconn.close()
+    #creating table for the student in student data database
+    dbconn = sqlite3.connect("Databases/Data/StuData.db")
+    cursor = dbconn.cursor()
+    cursor.execute(f"""
+        CREATE TABLE IF NOT EXISTS {username}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        certificate TEXT NOT NULL UNIQUE,
+        certlink TEXT NOT NULL UNIQUE
+        )
+    """
+    )
+    dbconn.commit()
+    dbconn.close()
+    #adding student in authority table of authdata database 
+    dbconn = sqlite3.connect("Databases/Data/AuthData.db")
+    cursor = dbconn.cursor()
+    cursor.execute(f"""
+        INSERT INTO {crrAuth} (username)
+        VALUES (?)
+        """, (username,))
+    dbconn.commit()
+    dbconn.close()
+    return render_template("Dashboards/AuthorityDashboard.html", success="User Succesfully Added",student=student)
 
 if __name__ == "__main__":
     app.run(debug=True)
