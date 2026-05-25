@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session
 import sqlite3
+import os
 
 app = Flask(__name__)
 app.secret_key = "EduTrace"
@@ -114,6 +115,11 @@ def Addstudent():
     crrAuth=session["crrAuth"]
     username = request.form["username"]
     password = request.form["password"]
+    #creating directory for the student added
+    os.makedirs(
+        "Certificates/" + username,
+        exist_ok=True
+    )
     #adding student data in authority table of student credential database
     dbconn = sqlite3.connect("Databases/Credentials/StuCred.db")
     cursor = dbconn.cursor()
@@ -160,6 +166,28 @@ def Addstudent():
     dbconn.commit()
     dbconn.close()
     return render_template("Dashboards/AuthorityDashboard.html", success="User Succesfully Added",student=student)
+
+@app.route("/UploadCertificate")
+def GoToUploadCertificate():
+    return render_template("/Dashboards/AuthFxns/UploadCertificate.html")
+
+@app.route("/UploadedCertificate" , methods=["POST"])
+def UploadCertificate():
+    student = request.form["username"]
+    certificatename = request.form["certificate"]
+    certificate = request.files["CertificateFile"]
+    filepath = f"""Certificates/{student}/{certificatename}.pdf"""
+    certificate.save(filepath)
+    dbconn = sqlite3.connect("Databases/Data/StuData.db")
+    cursor = dbconn.cursor()
+    cursor.execute(f"""
+        INSERT INTO {student} (certificate,certlink)
+        VALUES (?,?)
+    """,(certificatename, filepath))
+    dbconn.commit()
+    dbconn.close()
+    return render_template("/Dashboards/AuthFxns/UploadCertificate.html" ,
+                           success = f"{certificatename} succesfully uploaded for {student}")
 
 if __name__ == "__main__":
     app.run(debug=True)

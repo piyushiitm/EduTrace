@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+    <title>Upload Certificate</title>
+</head>
+<body>
+    <form action="/UploadedCertificate" method="POST" enctype="multipart/form-data">
+        <p>Enter Student ID</p><br>
+        <input type="text" name="student"><br>
+        <p>Enter Certificate Name</p><br>
+        <input type="text" name="certificate"><br>
+        <p>Select Certificate File</p>
+        <input type="file" name="CertificateFile"><br>
+    </form>
+    <p>{{Success}}</p>
+</body>
