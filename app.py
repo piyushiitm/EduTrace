@@ -173,7 +173,7 @@ def GoToUploadCertificate():
 
 @app.route("/UploadedCertificate" , methods=["POST"])
 def UploadCertificate():
-    student = request.form["username"]
+    student = request.form["student"]
     certificatename = request.form["certificate"]
     certificate = request.files["CertificateFile"]
     filepath = f"""Certificates/{student}/{certificatename}.pdf"""
