@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, session
 import sqlite3
 import os
+import hashlib
+from blockchain import AddCertificateToBlockchain
 
 app = Flask(__name__)
 app.secret_key = "EduTrace"
@@ -150,7 +152,8 @@ def Addstudent():
         CREATE TABLE IF NOT EXISTS {username}(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         certificate TEXT NOT NULL UNIQUE,
-        certlink TEXT NOT NULL UNIQUE
+        certlink TEXT NOT NULL UNIQUE,
+        transactionhash TEXT NOT NULL UNIQUE
         )
     """
     )
@@ -173,17 +176,29 @@ def GoToUploadCertificate():
 
 @app.route("/UploadedCertificate" , methods=["POST"])
 def UploadCertificate():
+    crrAuth=session["crrAuth"]
     student = request.form["student"]
     certificatename = request.form["certificate"]
     certificate = request.files["CertificateFile"]
     filepath = f"""Certificates/{student}/{certificatename}.pdf"""
     certificate.save(filepath)
+    #HashGeneration
+    with open(filepath, "rb") as file:
+        filedata = file.read()
+    filehash = hashlib.sha256(filedata).hexdigest()
+    transactionhash = AddCertificateToBlockchain(
+        student,
+        crrAuth,
+        certificatename,
+        filehash
+    )
+    
     dbconn = sqlite3.connect("Databases/Data/StuData.db")
     cursor = dbconn.cursor()
     cursor.execute(f"""
-        INSERT INTO {student} (certificate,certlink)
-        VALUES (?,?)
-    """,(certificatename, filepath))
+        INSERT INTO {student} (certificate,certlink,transactionhash)
+        VALUES (?,?,?)
+    """,(certificatename, filepath,transactionhash))
     dbconn.commit()
     dbconn.close()
     return render_template("/Dashboards/AuthFxns/UploadCertificate.html" ,

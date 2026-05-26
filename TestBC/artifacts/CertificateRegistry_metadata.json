@@ -1,0 +1,108 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_student",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_authority",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_certificatename",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_hash",
+						"type": "string"
+					}
+				],
+				"name": "addCertificate",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "certificates",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "student",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "authority",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "certificatename",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "hash",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"CertificateRegistry.sol": "CertificateRegistry"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"CertificateRegistry.sol": {
+			"keccak256": "0x08f93b52af58d440822f282fd58f6a657d522f092afaf7d5544d320aaebbd2a1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://31560568c692e3bc4e21329d2b5da0970186d95f70468d652a4e050413f4463d",
+				"dweb:/ipfs/QmWcSKrTcwEHfaUkuomegARE9XAFtn7SEwGy65gyscMdwn"
+			]
+		}
+	},
+	"version": 1
+}
