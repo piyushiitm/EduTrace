@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS admins (
 """)
 
 cursor.execute("""
-INSERT INTO admins (username, password)
+INSERT OR IGNORE INTO admins (username, password)
 VALUES (?, ?)
 """, ("Piyush", "19012005"))
 
@@ -39,15 +39,20 @@ dbconn.commit()
 
 dbconn.close()
 
-dbconn = sqlite3.connect("DataBases/Credentials/AuthCred.db")
+dbconn = sqlite3.connect("DataBases/Data/StuData.db")
 
 cursor = dbconn.cursor()
 
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS authorities (
+CREATE TABLE IF NOT EXISTS certificates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL
+    student_id TEXT NOT NULL,
+    student_name TEXT NOT NULL,
+    certificate_name TEXT NOT NULL,
+    certificate_path TEXT NOT NULL,
+    issuer TEXT NOT NULL,
+    upload_date TEXT NOT NULL,
+    hash TEXT NOT NULL
 )
 """)
 

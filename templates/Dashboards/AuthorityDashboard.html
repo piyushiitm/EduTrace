@@ -9,4 +9,17 @@
     <a href="/">Return to homepage</a><br>
     <p>{{sucess}}</p>
     <p>{{student}}</p>
+
+    <hr>
+
+    <h2>Students Under Your Authority</h2>
+
+    {% for student in students %}
+
+        <h3>{{ student[0] }}</h3>
+        <p>Authority : {{ student[1] }}</p>
+
+        <hr>
+
+    {% endfor %}
 </body>
