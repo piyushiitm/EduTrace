@@ -153,7 +153,8 @@ def Addstudent():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         certificate TEXT NOT NULL UNIQUE,
         certlink TEXT NOT NULL UNIQUE,
-        transactionhash TEXT NOT NULL UNIQUE
+        transactionhash TEXT NOT NULL UNIQUE,
+        hash TEXT NOT NULL UNIQUE
         )
     """
     )
@@ -196,13 +197,57 @@ def UploadCertificate():
     dbconn = sqlite3.connect("Databases/Data/StuData.db")
     cursor = dbconn.cursor()
     cursor.execute(f"""
-        INSERT INTO {student} (certificate,certlink,transactionhash)
-        VALUES (?,?,?)
-    """,(certificatename, filepath,transactionhash))
+        INSERT INTO {student} (certificate,certlink,transactionhash,hash)
+        VALUES (?,?,?,?)
+    """,(certificatename, filepath,transactionhash,filehash))
     dbconn.commit()
     dbconn.close()
     return render_template("/Dashboards/AuthFxns/UploadCertificate.html" ,
                            success = f"{certificatename} succesfully uploaded for {student}")
 
+@app.route("/ValidateDocument", methods=["POST"])
+def ValidateDocument():
+    document = request.files["document"]
+    temppath = "temp_validation.pdf"
+    document.save(temppath)
+    with open(temppath, "rb") as file:
+        filedata = file.read()
+    generatedhash = hashlib.sha256(filedata).hexdigest()
+    dbconn = sqlite3.connect("Databases/Data/StuData.db")
+    cursor = dbconn.cursor()
+    cursor.execute("""
+    SELECT name
+    FROM sqlite_master
+    WHERE type='table'
+    """)
+    tables = cursor.fetchall()
+    found = False
+    for table in tables:
+        tablename = table[0]
+        try:
+            cursor.execute(f"""
+            SELECT transactionhash
+            FROM {tablename}
+            WHERE hash=?
+            """, (generatedhash,))
+            result = cursor.fetchone()
+            if result:
+                found = True
+                transactionhash = result[0]
+                dbconn.close()
+                return render_template(
+                    "Dashboards/ValidationDashboard.html",
+                    success="DOCUMENT VALID"
+                )
+        except:
+            pass
+    dbconn.close()
+    if not found:
+        return render_template(
+            "Dashboards/ValidationDashboard.html",
+            error="DOCUMENT NOT FOUND / TAMPERED"
+        )
+    else:
+        return render_template("Dashboards/ValidationDashboard.html",success="DOCUMENT is valid")
 if __name__ == "__main__":
     app.run(debug=True)
