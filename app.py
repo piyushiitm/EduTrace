@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, send_file
 import sqlite3
 import os
 import hashlib
-#from blockchain import AddCertificateToBlockchain
+from blockchain import AddCertificateToBlockchain
 
 app = Flask(__name__)
 app.secret_key = "EduTrace"
@@ -42,45 +42,30 @@ def adminlogin():
 
 @app.route("/authoritydashboard", methods=["POST"])
 def authoritylogin():
-
     username = request.form["username"]
     password = request.form["password"]
-
     dbconn = sqlite3.connect("DataBases/Credentials/AuthCred.db")
-
     cursor = dbconn.cursor()
-
     cursor.execute(
         "SELECT * FROM authorities WHERE username=? AND password=?",
         (username, password)
     )
-
     auth = cursor.fetchone()
-
     if auth:
-
         session["crrAuth"] = username
-
         dbconn = sqlite3.connect("DataBases/Credentials/StuCred.db")
-
         cursor = dbconn.cursor()
-
         cursor.execute(
             "SELECT username, authority FROM students WHERE authority=?",
             (username,)
         )
-
         students = cursor.fetchall()
-
         dbconn.close()
-
         return render_template(
             "Dashboards/AuthorityDashboard.html",
             students=students
         )
-
     else:
-
         return render_template(
             "LoginPages/AuthorityLogin.html",
             error="Invalid Credentials"
@@ -88,46 +73,30 @@ def authoritylogin():
     
 @app.route("/studentdashboard", methods=["POST"])
 def studentlogin():
-
     username = request.form["username"]
     password = request.form["password"]
-
     dbconn = sqlite3.connect("Databases/Credentials/StuCred.db")
-
     cursor = dbconn.cursor()
-
     cursor.execute(
         "SELECT * FROM students WHERE username=? AND password=?",
         (username, password)
     )
-
     student = cursor.fetchone()
-
     dbconn.close()
-
     if student:
-
         session["username"] = username
-
         dbconn = sqlite3.connect("Databases/Data/StuData.db")
-
         cursor = dbconn.cursor()
-
         cursor.execute(
             f"SELECT certificate, certlink FROM {username}"
         )
-
         certificates = cursor.fetchall()
-
         dbconn.close()
-
         return render_template(
             "Dashboards/StudentDashboard.html",
             certificates=certificates
         )
-
     else:
-
         return render_template(
             "LoginPages/StudentLogin.html",
             error="Invalid Credentials"
@@ -253,12 +222,12 @@ def UploadCertificate():
     with open(filepath, "rb") as file:
         filedata = file.read()
     filehash = hashlib.sha256(filedata).hexdigest()
-    #transactionhash = AddCertificateToBlockchain(
-        #student,
-        #crrAuth,
-        #certificatename,
-        #filehash
-    #)
+    transactionhash = AddCertificateToBlockchain(
+        student,
+        crrAuth,
+        certificatename,
+        filehash
+    )
     
     dbconn = sqlite3.connect("Databases/Data/StuData.db")
     cursor = dbconn.cursor()
@@ -315,24 +284,15 @@ def ValidateDocument():
         )
     else:
         return render_template("Dashboards/ValidationDashboard.html",success="DOCUMENT is valid")
-if __name__ == "__main__":
-    app.run(debug=True)
 
 @app.route("/studentcertificates")
 def studentcertificates():
-
     username = session.get("username")
-
     dbconn = sqlite3.connect("DataBases/Data/StuData.db")
-
     cursor = dbconn.cursor()
-
     cursor.execute(f"SELECT certificate, certlink FROM {username}")
-
     certificates = cursor.fetchall()
-
     dbconn.close()
-
     return render_template(
         "StudentCertificates.html",
         certificates=certificates
@@ -340,6 +300,7 @@ def studentcertificates():
 
 @app.route("/download/<path:filepath>")
 def download(filepath):
-
     return send_file(filepath, as_attachment=True)
 
+if __name__ == "__main__":
+    app.run(debug=True)

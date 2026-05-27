@@ -5,29 +5,17 @@
 </head>
 
 <body>
-
     <h1>Student Dashboard</h1>
-
     <a href="/">Return to homepage</a>
-
     <hr>
-
     <h2>My Certificates</h2>
-
     {% for cert in certificates %}
-
         <div>
-
             <h3>{{ cert[0] }}</h3>
-
             <a href="/download/{{ cert[1] }}">
                 Download Certificate
             </a>
-
         </div>
-
         <hr>
-
     {% endfor %}
-
 </body>

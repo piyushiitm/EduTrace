@@ -39,20 +39,15 @@ dbconn.commit()
 
 dbconn.close()
 
-dbconn = sqlite3.connect("DataBases/Data/StuData.db")
+dbconn = sqlite3.connect("DataBases/Credentials/AuthCred.db")
 
 cursor = dbconn.cursor()
 
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS certificates (
+CREATE TABLE IF NOT EXISTS authorities (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_id TEXT NOT NULL,
-    student_name TEXT NOT NULL,
-    certificate_name TEXT NOT NULL,
-    certificate_path TEXT NOT NULL,
-    issuer TEXT NOT NULL,
-    upload_date TEXT NOT NULL,
-    hash TEXT NOT NULL
+    username TEXT NOT NULL UNIQUE,
+    password NOT NULL UNIQUE
 )
 """)
 
