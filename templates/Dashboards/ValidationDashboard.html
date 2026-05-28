@@ -1,23 +1,201 @@
 <!DOCTYPE html>
 <head>
-    <title>EduTraceValidation</title>
+    <title>EduTrace Validate Certificate</title>
 </head>
 
 <body>
-    <form action="/ValidateDocument"
-      method="POST"
-      enctype="multipart/form-data">
+    <nav class="navbar">
+        <div class="logo">EduTrace</div>
 
-    <p>Select Document</p>
+        <ul class="navlinks">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
 
-    <input type="file" name="document">
+        <a href="ValidationDashboard.html" class="navbtn">
+            Validate Certificates
+        </a>
+    </nav>
 
-    <button type="submit">
-        Validate
-    </button>
+    <div class="Mainbuttons">
+        <h2 class="pagetitle">Validate Certificate</h2>
+        <p class="pagedesc">Upload a certificate document to verify its authenticity.</p>
 
-</form>
-    <p>{{error}}</p>
-    <p>{{success}}</p>
-    <a href="/">Return to homepage</a><br>
+        <form action="/verify" method="post" enctype="multipart/form-data">
+            <label class="uploadlabel" for="certfile">Choose Certificate File</label>
+            <input type="file" id="certfile" name="certfile" class="fileinput" accept=".pdf,.png,.jpg,.jpeg">
+            <input type="submit" value="Verify Certificate" class="btn primary submitbtn">
+        </form>
+
+        <a href="../HomePage.html" class="btn">Return to Homepage</a>
+    </div>
+
+    <footer class="footer">
+        <div class="footerlinks">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Contact</a>
+        </div>
+    </footer>
 </body>
+
+<style>
+
+body{
+    background-image: url('../static/Background.png');
+    background-size:100%;
+    background-position:center;
+    background-repeat:no-repeat;
+    min-height:100vh;
+}
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+    }
+
+    .navbar{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:20px 60px;
+        background:white;
+        box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .logo{
+        font-size:32px;
+        font-weight:bold;
+        color:#0b3b46;
+    }
+
+    .navlinks{
+        display:flex;
+        gap:35px;
+        list-style:none;
+    }
+
+    .navlinks a{
+        text-decoration:none;
+        color:#111;
+        font-weight:500;
+    }
+
+    .navlinks a:hover{
+        color:#0f8b8d;
+    }
+
+    .navbtn{
+        text-decoration:none;
+        background:#0f8b8d;
+        color:white;
+        padding:12px 22px;
+        border-radius:10px;
+        font-weight:600;
+    }
+
+    .navbtn:hover{
+        background:#0c6f70;
+    }
+
+    .Mainbuttons{
+        width:400px;
+        display:flex;
+        flex-direction:column;
+        gap:15px;
+        margin:40px;
+        flex:1;
+    }
+
+    .pagetitle{
+        font-size:26px;
+        color:#0b3b46;
+        font-weight:700;
+    }
+
+    .pagedesc{
+        color:#444;
+        font-size:15px;
+        margin-bottom:5px;
+    }
+
+    .uploadlabel{
+        display:block;
+        padding:18px 25px;
+        border-radius:12px;
+        background:white;
+        color:#222;
+        font-size:16px;
+        font-weight:500;
+        box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        cursor:pointer;
+    }
+
+    .fileinput{
+        display:block;
+        padding:10px 0;
+        font-size:14px;
+        color:#444;
+    }
+
+    .btn{
+        text-decoration:none;
+        padding:18px 25px;
+        border-radius:12px;
+        background:white;
+        color:#222;
+        font-size:20px;
+        font-weight:500;
+        box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        transition:0.3s;
+        text-align:left;
+    }
+
+    .btn:hover{
+        transform:translateX(5px);
+    }
+
+    .primary{
+        background:#0f8b8d;
+        color:white;
+    }
+
+    .submitbtn{
+        border:none;
+        cursor:pointer;
+        width:100%;
+        font-size:18px;
+    }
+
+    .footer{
+        background:#015c5d;
+        color:white;
+        padding:20px;
+        text-align:center;
+        position:fixed;
+        bottom:0;
+        width:100%;
+        margin-top:auto;
+    }
+
+    .footerlinks{
+        display:flex;
+        justify-content:center;
+        gap:30px;
+    }
+
+    .footerlinks a{
+        color:white;
+        text-decoration:none;
+    }
+
+    .footerlinks a:hover{
+        text-decoration:underline;
+    }
+
+</style>
