@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 <head>
+    <title>EduTraceAuthorities</title>
+</head>
+
+<body>
+    <a href="/AddStudents">Add Student</a><br>
+    <a href="/UploadCertificate">UploadCertificate</a>
+    <a href="/">Return to homepage</a><br>
+    <p>{{sucess}}</p>
+    <p>{{student}}</p>
+    <hr>
+    <h2>Students Under Your Authority</h2>
+    {% for student in students %}
+        <h3>{{ student[0] }}</h3>
+        <p>Authority : {{ student[1] }}</p>
+        <hr>
+    {% endfor %}
+</body>
+<!DOCTYPE html>
+<head>
     <title>EduTrace Authority Dashboard</title>
 </head>
 
