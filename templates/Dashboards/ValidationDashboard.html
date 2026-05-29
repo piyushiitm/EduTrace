@@ -4,200 +4,245 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="logo">EduTrace</div>
 
-        <ul class="navlinks">
-            <li><a href="/">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">How It Works</a></li>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
+<nav class="navbar">
+    <div class="logo">EduTrace</div>
 
-    <div class="Mainbuttons">
-        <h2 class="pagetitle">Validate Certificate</h2>
-        <p class="pagedesc">Upload a certificate document to verify its authenticity.</p>
+    <ul class="navlinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">How It Works</a></li>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</nav>
 
-        <form action="/validatedocument" method="post" enctype="multipart/form-data">
-            <label class="uploadlabel" for="certfile">Choose Certificate File</label>
-            <input type="file" id="certfile" name="document" class="fileinput" accept=".pdf,.png,.jpg,.jpeg">
-            <input type="submit" value="Verify Certificate" class="btn primary submitbtn">
-        </form>
-        {% if success %}
-            <p style="color:green;">{{ success }}</p>
-        {% endif %}
+<div class="Mainbuttons">
 
-        {% if error %}
-        <p style="color:red;">{{ error }}</p>
-        {% endif %}
-        <a href="/" class="btn">Return to Homepage</a>
+    <h2 class="pagetitle">Validate Certificate</h2>
+
+    <p class="pagedesc">
+        Upload a certificate document to verify its authenticity.
+    </p>
+
+    <form action="/validatedocument" method="post" enctype="multipart/form-data">
+
+        <label class="uploadlabel" for="certfile" id="uploadlabel">
+            Choose Certificate File
+        </label>
+
+        <input
+            type="file"
+            id="certfile"
+            name="document"
+            class="fileinput"
+            accept=".pdf,.png,.jpg,.jpeg">
+
+        <input
+            type="submit"
+            value="Verify Certificate"
+            class="btn primary submitbtn">
+
+    </form>
+
+    {% if success %}
+    <div class="messagebox successbox">
+        {{ success }}
     </div>
+    {% endif %}
 
-    <footer class="footer">
-        <div class="footerlinks">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Use</a>
-            <a href="#">Contact</a>
-        </div>
-    </footer>
+    {% if error %}
+    <div class="messagebox errorbox">
+        {{ error }}
+    </div>
+    {% endif %}
+
+</div>
+
+<footer class="footer">
+    <div class="footerlinks">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Contact</a>
+    </div>
+</footer>
+
+<script>
+document.getElementById("certfile").addEventListener("change", function(){
+
+    const label = document.getElementById("uploadlabel");
+
+    if(this.files.length > 0){
+        label.textContent = this.files[0].name;
+    }
+    else{
+        label.textContent = "Choose Certificate File";
+    }
+
+});
+</script>
+
 </body>
 
 <style>
 
 body{
-    background-image: url("{{ url_for('static', filename='Images/Background.png') }}");
+    background-image:url("{{ url_for('static', filename='Images/Background.png') }}");
     background-size:100%;
     background-position:center;
     background-repeat:no-repeat;
     min-height:100vh;
 }
 
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family:Arial, sans-serif;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
-    .navbar{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        padding:20px 60px;
-        background:white;
-        box-shadow:0 2px 10px rgba(0,0,0,0.05);
-    }
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+    background:white;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
 
-    .logo{
-        font-size:32px;
-        font-weight:bold;
-        color:#0b3b46;
-    }
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    color:#0b3b46;
+}
 
-    .navlinks{
-        display:flex;
-        gap:35px;
-        list-style:none;
-    }
+.navlinks{
+    display:flex;
+    gap:35px;
+    list-style:none;
+}
 
-    .navlinks a{
-        text-decoration:none;
-        color:#111;
-        font-weight:500;
-    }
+.navlinks a{
+    text-decoration:none;
+    color:#111;
+    font-weight:500;
+}
 
-    .navlinks a:hover{
-        color:#0f8b8d;
-    }
+.navlinks a:hover{
+    color:#0f8b8d;
+}
 
-    .navbtn{
-        text-decoration:none;
-        background:#0f8b8d;
-        color:white;
-        padding:12px 22px;
-        border-radius:10px;
-        font-weight:600;
-    }
+.Mainbuttons{
+    width:400px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin:40px;
+}
 
-    .navbtn:hover{
-        background:#0c6f70;
-    }
+.pagetitle{
+    font-size:26px;
+    color:#0b3b46;
+    font-weight:700;
+}
 
-    .Mainbuttons{
-        width:400px;
-        display:flex;
-        flex-direction:column;
-        gap:15px;
-        margin:40px;
-        flex:1;
-    }
+.pagedesc{
+    color:#444;
+    font-size:15px;
+    margin-bottom:5px;
+}
 
-    .pagetitle{
-        font-size:26px;
-        color:#0b3b46;
-        font-weight:700;
-    }
+.uploadlabel{
+    display:block;
+    padding:18px 25px;
+    border-radius:12px;
+    background:white;
+    color:#222;
+    font-size:16px;
+    font-weight:500;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.3s;
+}
 
-    .pagedesc{
-        color:#444;
-        font-size:15px;
-        margin-bottom:5px;
-    }
+.uploadlabel:hover{
+    transform:translateX(5px);
+}
 
-    .uploadlabel{
-        display:block;
-        padding:18px 25px;
-        border-radius:12px;
-        background:white;
-        color:#222;
-        font-size:16px;
-        font-weight:500;
-        box-shadow:0 2px 8px rgba(0,0,0,0.1);
-        cursor:pointer;
-    }
+.fileinput{
+    display:none;
+}
 
-    .fileinput{
-        display:block;
-        padding:10px 0;
-        font-size:14px;
-        color:#444;
-    }
+.btn{
+    text-decoration:none;
+    padding:18px 25px;
+    border-radius:12px;
+    background:white;
+    color:#222;
+    font-size:20px;
+    font-weight:500;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    transition:0.3s;
+    text-align:left;
+}
 
-    .btn{
-        text-decoration:none;
-        padding:18px 25px;
-        border-radius:12px;
-        background:white;
-        color:#222;
-        font-size:20px;
-        font-weight:500;
-        box-shadow:0 2px 8px rgba(0,0,0,0.1);
-        transition:0.3s;
-        text-align:left;
-    }
+.btn:hover{
+    transform:translateX(5px);
+}
 
-    .btn:hover{
-        transform:translateX(5px);
-    }
+.primary{
+    background:#0f8b8d;
+    color:white;
+}
 
-    .primary{
-        background:#0f8b8d;
-        color:white;
-    }
+.submitbtn{
+    border:none;
+    cursor:pointer;
+    width:100%;
+    font-size:18px;
+    margin-top:15px;
+}
 
-    .submitbtn{
-        border:none;
-        cursor:pointer;
-        width:100%;
-        font-size:18px;
-    }
+.messagebox{
+    padding:18px 25px;
+    border-radius:12px;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    font-weight:600;
+    font-size:16px;
+}
 
-    .footer{
-        background:#015c5d;
-        color:white;
-        padding:20px;
-        text-align:center;
-        position:fixed;
-        bottom:0;
-        width:100%;
-        margin-top:auto;
-    }
+.successbox{
+    color:#0f8b8d;
+}
 
-    .footerlinks{
-        display:flex;
-        justify-content:center;
-        gap:30px;
-    }
+.errorbox{
+    color:#d62828;
+}
 
-    .footerlinks a{
-        color:white;
-        text-decoration:none;
-    }
+.footer{
+    background:#015c5d;
+    color:white;
+    padding:20px;
+    text-align:center;
+    position:fixed;
+    bottom:0;
+    width:100%;
+}
 
-    .footerlinks a:hover{
-        text-decoration:underline;
-    }
+.footerlinks{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+}
+
+.footerlinks a{
+    color:white;
+    text-decoration:none;
+}
+
+.footerlinks a:hover{
+    text-decoration:underline;
+}
 
 </style>

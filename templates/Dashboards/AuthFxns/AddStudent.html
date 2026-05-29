@@ -31,6 +31,7 @@
                 <button type="submit" class="submitbtn">Add Student</button>
             </form>
             <p>{{success}}</p>
+            <p>{{student[1]}}</p>
         </div>
     </div>
 
@@ -46,7 +47,7 @@
 <style>
 
 body{
-    background-image: url('../../static/Background.png');
+    background-image: url("{{ url_for('static', filename='Images/Background.png') }}");
     background-size:100%;
     background-position:center;
     background-repeat:no-repeat;

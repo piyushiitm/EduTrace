@@ -21,43 +21,49 @@
     </a>
 </nav>
 
-    <div class="messages">
-    <p>{{ sucess }}</p>
-    <h2>Students Under Your Authority</h2>
+<div class="dashboardcontainer">
 
-    <div class="studentslist">
-        {% for student in students %}
-        <div class="studentcard">
-            <div class="studenticon">👨‍🎓</div>
+    <div class="studentpanel">
 
-            <div class="studentinfo">
-                <div class="studentname">{{ student[0] }}</div>
+        <p class="successmsg">{{ success }}</p>
+
+        <h2>Students Under Your Authority</h2>
+
+        <div class="studentslist">
+            {% for student in students %}
+            <div class="studentcard">
+                <div class="studenticon">👨‍🎓</div>
+
+                <div class="studentinfo">
+                    <div class="studentname">{{ student[0] }}</div>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
+
     </div>
 
     <div class="Mainbuttons">
         <a href="/addstudent" class="btn primary">Add Student</a>
         <a href="/uploadcertificate" class="btn">Upload Certificate</a>
     </div>
-    <footer class="footer">
-        <div class="footerlinks">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Use</a>
-            <a href="#">Contact</a>
-        </div>
-    </footer>
+
+</div>
+
+<footer class="footer">
+    <div class="footerlinks">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Contact</a>
+    </div>
+</footer>
 
 </body>
-
-
 
 <style>
 
 body{
-    background-image: url('../static/Background.png');
+    background-image:url("{{ url_for('static', filename='Images/Background.png') }}");
     background-size:100%;
     background-position:center;
     background-repeat:no-repeat;
@@ -115,13 +121,78 @@ body{
     background:#0c6f70;
 }
 
+.dashboardcontainer{
+    width:400px;
+    margin:40px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.studentpanel{
+    width:400px;
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.studentpanel h2{
+    color:#0b3b46;
+    font-size:22px;
+    margin-bottom:15px;
+}
+
+.successmsg{
+    color:#0b3b46;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.studentslist{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    max-height:300px;
+    overflow-y:auto;
+    padding-right:5px;
+}
+
+.studentcard{
+    width:100%;
+    background:#f8f8f8;
+    border:1px solid #e5e5e5;
+    border-radius:10px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:0.2s;
+}
+
+.studentcard:hover{
+    transform:translateX(4px);
+}
+
+.studenticon{
+    font-size:24px;
+}
+
+.studentinfo{
+    flex:1;
+}
+
+.studentname{
+    font-size:16px;
+    font-weight:600;
+    color:#0b3b46;
+}
+
 .Mainbuttons{
     width:400px;
     display:flex;
     flex-direction:column;
     gap:15px;
-    margin:40px;
-    flex:1;
 }
 
 .btn{
@@ -145,19 +216,6 @@ body{
     color:white;
 }
 
-.messages{
-    margin:0 40px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
-.messages p{
-    color:#0b3b46;
-    font-size:16px;
-    font-weight:500;
-}
-
 .footer{
     background:#015c5d;
     color:white;
@@ -166,7 +224,6 @@ body{
     position:fixed;
     bottom:0;
     width:100%;
-    margin-top:auto;
 }
 
 .footerlinks{
@@ -182,43 +239,6 @@ body{
 
 .footerlinks a:hover{
     text-decoration:underline;
-}
-
-.studentslist{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    margin-top:15px;
-}
-
-.studentcard{
-    background:white;
-    border-radius:12px;
-    padding:18px 22px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-    display:flex;
-    align-items:center;
-    gap:16px;
-}
-
-.studenticon{
-    font-size:28px;
-}
-
-.studentinfo{
-    flex:1;
-}
-
-.studentname{
-    font-size:18px;
-    font-weight:600;
-    color:#0b3b46;
-}
-
-.studentauthority{
-    font-size:14px;
-    color:#666;
-    margin-top:4px;
 }
 
 </style>

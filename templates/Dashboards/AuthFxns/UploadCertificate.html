@@ -20,41 +20,71 @@
     </a>
 </nav>
 
-    <div class="formwrapper">
-        <div class="formbox">
-            <h2 class="formtitle">Upload Certificate</h2>
-            <form action="/UploadedCertificate" method="POST" enctype="multipart/form-data">
-                <div class="formgroup">
-                    <label for="student">Student ID</label>
-                    <input type="text" name="student" id="student">
-                </div>
-                <div class="formgroup">
-                    <label for="certificate">Certificate Name</label>
-                    <input type="text" name="certificate" id="certificate">
-                </div>
-                <div class="formgroup">
-                    <label for="CertificateFile">Certificate File</label>
-                    <input type="file" name="CertificateFile" id="CertificateFile">
-                </div>
-                <button type="submit" class="submitbtn">Upload</button>
-            </form>
-            <p class="successmsg">{{success}}</p>
-        </div>
-    </div>
+<div class="formwrapper">
+    <div class="formbox">
+        <h2 class="formtitle">Upload Certificate</h2>
 
-    <footer class="footer">
-        <div class="footerlinks">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Use</a>
-            <a href="#">Contact</a>
-        </div>
-    </footer>
+        <form action="/UploadedCertificate" method="POST" enctype="multipart/form-data">
+
+            <div class="formgroup">
+                <label for="student">Student ID</label>
+                <input type="text" name="student" id="student">
+            </div>
+
+            <div class="formgroup">
+                <label for="certificate">Certificate Name</label>
+                <input type="text" name="certificate" id="certificate">
+            </div>
+
+            <div class="formgroup">
+                <label class="uploadlabel" for="CertificateFile">
+                    Choose Certificate File
+                </label>
+
+                <input
+                    type="file"
+                    name="CertificateFile"
+                    id="CertificateFile"
+                    class="fileinput"
+                    accept=".pdf,.png,.jpg,.jpeg">
+
+                <span id="filename" class="filename">
+                    No file selected
+                </span>
+            </div>
+
+            <button type="submit" class="submitbtn">Upload</button>
+
+        </form>
+
+        <p class="successmsg">{{success}}</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footerlinks">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Contact</a>
+    </div>
+</footer>
+
+<script>
+document.getElementById("CertificateFile").addEventListener("change", function(){
+    const fileName = this.files.length > 0
+        ? this.files[0].name
+        : "No file selected";
+
+    document.getElementById("filename").textContent = fileName;
+});
+</script>
+
 </body>
 
 <style>
 
 body{
-    background-image: url('../../static/Background.png');
+    background-image:url("{{ url_for('static', filename='Images/Background.png') }}");
     background-size:100%;
     background-position:center;
     background-repeat:no-repeat;
@@ -160,9 +190,33 @@ body{
     border-color:#0f8b8d;
 }
 
-.formgroup input[type="file"]{
+.uploadlabel{
+    display:block;
+    padding:18px 25px;
+    border-radius:12px;
+    background:white;
+    color:#222;
+    font-size:16px;
+    font-weight:500;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    cursor:pointer;
+    border:1px solid #ccc;
+    transition:0.3s;
+}
+
+.uploadlabel:hover{
+    border-color:#0f8b8d;
+}
+
+.fileinput{
+    display:none;
+}
+
+.filename{
+    display:block;
+    margin-top:10px;
     font-size:14px;
-    color:#444;
+    color:#555;
 }
 
 .submitbtn{
