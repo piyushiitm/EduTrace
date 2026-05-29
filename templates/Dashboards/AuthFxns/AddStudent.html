@@ -31,7 +31,7 @@
                 <button type="submit" class="submitbtn">Add Student</button>
             </form>
             <p>{{success}}</p>
-            <p>{{student[1]}}</p>
+            {% if student %}<p>{{student[1]}}</p>{% endif %}
         </div>
     </div>
 

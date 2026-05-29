@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS admins (
 cursor.execute("""
 INSERT OR IGNORE INTO admins (username, password)
 VALUES (?, ?)
-""", ("Piyush", "19012005"))
+""", ("Admin", "Admin"))
 
 dbconn.commit()
 
