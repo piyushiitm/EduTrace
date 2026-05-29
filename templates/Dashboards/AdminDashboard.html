@@ -8,14 +8,14 @@
         <div class="logo">EduTrace</div>
 
         <ul class="navlinks">
-            <li><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">How It Works</a></li>
             <li><a href="#">Features</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
 
-        <a href="ValidationDashboard.html" class="navbtn">
+        <a href="validationdashboard" class="navbtn">
             Validate Certificates
         </a>
     </nav>
@@ -30,7 +30,9 @@
                 <input type="text" name="password">
                 <button type="submit">Add Authority</button>
             </form>
-            <a href="../HomePage.html" class="backlink">Return to homepage</a>
+            <p>{{success}}</p>
+            {% if authority %}<p>{{authority[1]}}</p>{% endif %}
+            <a href="/" class="backlink">Return to homepage</a>
         </div>
     </div>
 
@@ -46,7 +48,7 @@
 <style>
 
     body {
-        background-image: url('../static/Background.png');
+        background-image: url("{{ url_for('static', filename='Images/Background.png') }}");
         background-size: 100%;
         background-position: center;
         background-repeat: no-repeat;

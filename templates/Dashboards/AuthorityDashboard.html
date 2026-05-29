@@ -1,24 +1,5 @@
 <!DOCTYPE html>
 <head>
-    <title>EduTraceAuthorities</title>
-</head>
-
-<body>
-    <a href="/AddStudents">Add Student</a><br>
-    <a href="/UploadCertificate">UploadCertificate</a>
-    <a href="/">Return to homepage</a><br>
-    <p>{{sucess}}</p>
-    <p>{{student}}</p>
-    <hr>
-    <h2>Students Under Your Authority</h2>
-    {% for student in students %}
-        <h3>{{ student[0] }}</h3>
-        <p>Authority : {{ student[1] }}</p>
-        <hr>
-    {% endfor %}
-</body>
-<!DOCTYPE html>
-<head>
     <title>EduTrace Authority Dashboard</title>
 </head>
 
@@ -28,27 +9,39 @@
     <div class="logo">EduTrace</div>
 
     <ul class="navlinks">
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">How It Works</a></li>
         <li><a href="#">Features</a></li>
         <li><a href="#">Contact</a></li>
     </ul>
 
-    <a href="ValidationDashboard.html" class="navbtn">
+    <a href="validationdashboard" class="navbtn">
         Validate Certificates
     </a>
 </nav>
 
-    <div class="Mainbuttons">
-        <a href="AuthFxns/AddStudent.html" class="btn primary">Add Student</a><br>
-        <a href="AuthFxns/UploadCertificate.html" class="btn">Upload Certificate</a><br>
-        <a href="../HomePage.html" class="btn">Return to Homepage</a>
-    </div>
-
     <div class="messages">
+    <p>{{ sucess }}</p>
+    <h2>Students Under Your Authority</h2>
+
+    <div class="studentslist">
+        {% for student in students %}
+        <div class="studentcard">
+            <div class="studenticon">👨‍🎓</div>
+
+            <div class="studentinfo">
+                <div class="studentname">{{ student[0] }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     </div>
 
+    <div class="Mainbuttons">
+        <a href="/addstudent" class="btn primary">Add Student</a>
+        <a href="/uploadcertificate" class="btn">Upload Certificate</a>
+    </div>
     <footer class="footer">
         <div class="footerlinks">
             <a href="#">Privacy Policy</a>
@@ -189,6 +182,43 @@ body{
 
 .footerlinks a:hover{
     text-decoration:underline;
+}
+
+.studentslist{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:15px;
+}
+
+.studentcard{
+    background:white;
+    border-radius:12px;
+    padding:18px 22px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.studenticon{
+    font-size:28px;
+}
+
+.studentinfo{
+    flex:1;
+}
+
+.studentname{
+    font-size:18px;
+    font-weight:600;
+    color:#0b3b46;
+}
+
+.studentauthority{
+    font-size:14px;
+    color:#666;
+    margin-top:4px;
 }
 
 </style>

@@ -8,14 +8,14 @@
     <div class="logo">EduTrace</div>
 
     <ul class="navlinks">
-        <li><a href="../HomePage.html">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">How It Works</a></li>
         <li><a href="#">Features</a></li>
         <li><a href="#">Contact</a></li>
     </ul>
 
-    <a href="../Dashboards/ValidationDashboard.html" class="navbtn">
+    <a href="/validationdashboard" class="navbtn">
         Validate Certificates
     </a>
 </nav>
@@ -23,7 +23,7 @@
     <div class="loginwrapper">
         <div class="loginbox">
             <h2>Student Login</h2>
-            <form action="../Dashboards/StudentDashboard.html" method="POST">
+            <form action="/studentdashboard" method="POST">
                 <p>Enter Username</p>
                 <input type="text" name="username" placeholder="Username">
 
@@ -32,8 +32,10 @@
 
                 <button type="submit">Login</button>
             </form>
-            <a href="../HomePage.html" class="backlink">Return to homepage</a>
+            <p class = "errmsg">{{error}}</p>
+            <a href="/" class="backlink">Return to homepage</a>
         </div>
+        
     </div>
 
     <footer class="footer">
@@ -51,7 +53,7 @@
 <style>
 
 body{
-    background-image: url('../static/Background.png');
+    background-image: url("{{ url_for('static', filename='Images/Background.png') }}");
     background-size:100%;
     background-position:center;
     background-repeat:no-repeat;
@@ -111,9 +113,9 @@ body{
 
     .loginwrapper{
         display:flex;
-        justify-content:center;
+        justify-content:left;
         align-items:center;
-        padding:80px 20px 100px;
+        padding:80px 80px 100px;
     }
 
     .loginbox{
@@ -210,4 +212,9 @@ body{
         text-decoration:underline;
     }
 
+    .errmsg{
+        margin-top:15px;
+        color:#0b3b46;
+        font-size:15px;
+    }
 </style>

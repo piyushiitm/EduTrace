@@ -8,22 +8,22 @@
     <div class="logo">EduTrace</div>
 
     <ul class="navlinks">
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">How It Works</a></li>
         <li><a href="#">Features</a></li>
         <li><a href="#">Contact</a></li>
     </ul>
 
-    <a href="Dashboards/ValidationDashboard.html" class="navbtn">
+    <a href="/validationdashboard" class="navbtn">
         Validate Certificates
     </a>
 </nav>
     <div class="Mainbuttons">
-    <a href="LoginPages/StudentLogin.html" class="btn primary">Student Login</a><br>
-    <a href="LoginPages/AuthorityLogin.html" class="btn">Issuing Authority Login</a><br>
-    <a href="LoginPages/AdminLogin.html" class="btn">Admin Login</a><br>
-    <a href="Dashboards/ValidationDashboard.html" class="btn">Validate Certificates</a>
+    <a href="/studentlogin" class="btn primary">Student Login</a><br>
+    <a href="/authoritylogin" class="btn">Issuing Authority Login</a><br>
+    <a href="/adminlogin" class="btn">Admin Login</a><br>
+    <a href="/validationdashboard" class="btn">Validate Certificates</a>
     </div>
 
     <footer class="footer">
@@ -43,7 +43,7 @@
 <style>
 
 body{
-    background-image: url('./static/Background.png');
+    background-image: url("{{ url_for('static', filename='Images/Background.png') }}");
     background-size:100%;
     background-position:center;
     background-repeat:no-repeat;

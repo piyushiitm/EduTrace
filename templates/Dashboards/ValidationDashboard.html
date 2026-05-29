@@ -8,29 +8,31 @@
         <div class="logo">EduTrace</div>
 
         <ul class="navlinks">
-            <li><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">How It Works</a></li>
             <li><a href="#">Features</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
-
-        <a href="ValidationDashboard.html" class="navbtn">
-            Validate Certificates
-        </a>
     </nav>
 
     <div class="Mainbuttons">
         <h2 class="pagetitle">Validate Certificate</h2>
         <p class="pagedesc">Upload a certificate document to verify its authenticity.</p>
 
-        <form action="/verify" method="post" enctype="multipart/form-data">
+        <form action="/validatedocument" method="post" enctype="multipart/form-data">
             <label class="uploadlabel" for="certfile">Choose Certificate File</label>
-            <input type="file" id="certfile" name="certfile" class="fileinput" accept=".pdf,.png,.jpg,.jpeg">
+            <input type="file" id="certfile" name="document" class="fileinput" accept=".pdf,.png,.jpg,.jpeg">
             <input type="submit" value="Verify Certificate" class="btn primary submitbtn">
         </form>
+        {% if success %}
+            <p style="color:green;">{{ success }}</p>
+        {% endif %}
 
-        <a href="../HomePage.html" class="btn">Return to Homepage</a>
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+        <a href="/" class="btn">Return to Homepage</a>
     </div>
 
     <footer class="footer">
@@ -45,7 +47,7 @@
 <style>
 
 body{
-    background-image: url('../static/Background.png');
+    background-image: url("{{ url_for('static', filename='Images/Background.png') }}");
     background-size:100%;
     background-position:center;
     background-repeat:no-repeat;

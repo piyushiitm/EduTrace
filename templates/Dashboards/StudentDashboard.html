@@ -8,14 +8,14 @@
         <div class="logo">EduTrace</div>
 
         <ul class="navlinks">
-            <li><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">How It Works</a></li>
             <li><a href="#">Features</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
 
-        <a href="ValidationDashboard.html" class="navbtn">
+        <a href="validationdashboard" class="navbtn">
             Validate Certificates
         </a>
     </nav>
@@ -23,30 +23,22 @@
     <div class="dashboardwrapper">
 
         <div class="welcomebox">
-            <h2>Welcome, Student</h2>
+            <h2>Welcome, {{username}}</h2>
             <p>View your already uploaded and verified documents.</p>
         </div>
 
-        <div class="sectiontitle">My Uploaded Documents</div>
+        <div class="sectiontitle">My Documents</div>
 
         <div class="documentslist">
-
+            {% for cert in certificates %}
             <div class="documentcard">
                 <div class="docicon">&#128196;</div>
                 <div class="docinfo">
-                    <div class="docname">Degree Certificate - B.Tech Computer Science</div>
-                    <div class="docdate">Uploaded on: 10 August 2028</div>
+                    <div class="docname">{{cert[0]}}</div>
                 </div>
-                <a href="#" class="btn viewbtn">View</a>
+                <a href="/download/{{ cert[1] }}" class="btn viewbtn">Download</a>
             </div>
-
-
-        <div class="actionbuttons">
-            <a href="ValidationDashboard.html" class="btn primary">Verify Document</a>
-            <a href="../HomePage.html" class="btn">Return to Homepage</a>
-
-    </div>
-
+            {% endfor %}
     <footer class="footer">
         <div class="footerlinks">
             <a href="#">Privacy Policy</a>

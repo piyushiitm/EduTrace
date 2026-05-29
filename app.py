@@ -94,7 +94,8 @@ def studentlogin():
         dbconn.close()
         return render_template(
             "Dashboards/StudentDashboard.html",
-            certificates=certificates
+            certificates=certificates,
+            username=username
         )
     else:
         return render_template(
@@ -143,7 +144,7 @@ def addAuthority():
     dbconn.close()
     return render_template("Dashboards/AdminDashboard.html", success="User Succesfully Added",authority=authority)
 
-@app.route("/AddStudents")
+@app.route("/addstudent")
 def GotoAddStudent():
     return render_template("Dashboards/AuthFxns/AddStudent.html")
 
@@ -204,9 +205,9 @@ def Addstudent():
         """, (username,))
     dbconn.commit()
     dbconn.close()
-    return render_template("Dashboards/AuthorityDashboard.html", success="User Succesfully Added",student=student)
+    return render_template("Dashboards/AuthFxns/AddStudent.html", success="Student Succesfully Added",student=student)
 
-@app.route("/UploadCertificate")
+@app.route("/uploadcertificate")
 def GoToUploadCertificate():
     return render_template("/Dashboards/AuthFxns/UploadCertificate.html")
 
@@ -240,7 +241,7 @@ def UploadCertificate():
     return render_template("/Dashboards/AuthFxns/UploadCertificate.html" ,
                            success = f"{certificatename} succesfully uploaded for {student}")
 
-@app.route("/ValidateDocument", methods=["POST"])
+@app.route("/validatedocument", methods=["POST"])
 def ValidateDocument():
     document = request.files["document"]
     temppath = "temp_validation.pdf"
